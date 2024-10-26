@@ -5,12 +5,17 @@
 	let dragOver = $state(false);
 	let uploadProgress = $state(0);
 
-	function handleDrop(event: DragEvent) {
+	async function handleDrop(event: DragEvent) {
 		event.preventDefault();
 		dragOver = false;
 		const files = event.dataTransfer?.files;
-		if (files) {
-			handleFiles(files);
+		if (files && files.length > 0) {
+			await handleFiles(files);
+		} else {
+			const url = event.dataTransfer?.getData('text/plain');
+			if (url) {
+				await handleExampleFont(url);
+			}
 		}
 	}
 
@@ -24,20 +29,29 @@
 	async function handleFiles(files: FileList) {
 		const file = files[0];
 		if (file) {
-			uploadProgress = 0;
-			const intervalId = setInterval(() => {
-				uploadProgress = Math.min(uploadProgress + 10, 90);
-			}, 100);
+			await processFont(file);
+		}
+	}
 
-			try {
-				const result = await fontStore.loadFont(file);
-				uploadProgress = 100;
-			} catch (error) {
-				console.error('Error loading font:', error);
-				uploadProgress = 0;
-			} finally {
-				clearInterval(intervalId);
-			}
+	async function handleExampleFont(url: string) {
+		await processFont(url);
+	}
+
+	async function processFont(file: File | string) {
+		uploadProgress = 0;
+		const intervalId = setInterval(() => {
+			uploadProgress = Math.min(uploadProgress + 10, 90);
+		}, 100);
+
+		try {
+			await fontStore.loadFont(file);
+			uploadProgress = 100;
+		} catch (error) {
+			console.error('Error loading font:', error);
+			alert('Error loading font. You may only upload TTF, WOFF, WOFF2, or OTF files.');
+			uploadProgress = 0;
+		} finally {
+			clearInterval(intervalId);
 		}
 	}
 </script>

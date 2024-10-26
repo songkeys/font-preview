@@ -5,11 +5,23 @@
 	const itemClass = 'flex items-center';
 	const keyClass = 'w-1/3 text-sm font-medium text-gray-500 dark:text-gray-400';
 	const valueClass = 'text-sm text-gray-800 dark:text-gray-200';
+
+	function resetFont() {
+		fontStore.reset();
+	}
 </script>
 
 {#if fontStore.metadata}
 	<div class="my-4 rounded-lg border border-gray-500 p-6">
-		<h3 class="mb-4 text-xl font-bold text-gray-800 dark:text-white">Font Information</h3>
+		<div class="mb-4 flex items-center justify-between">
+			<h3 class="text-xl font-bold text-gray-800 dark:text-white">Font Information</h3>
+			<button
+				onclick={resetFont}
+				class="rounded bg-red-500 px-3 py-1 text-sm text-white transition-colors hover:bg-red-600"
+			>
+				Reset
+			</button>
+		</div>
 		<div class="space-y-3">
 			<div class={itemClass}>
 				<span class={keyClass}>Name:</span>

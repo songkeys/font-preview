@@ -22,7 +22,18 @@ class FontStore {
 
 	cardSize = $state(120);
 
-	async loadFont(file: File) {
+	async loadFont(file: File | string) {
+		if (typeof file === 'string') {
+			// url
+			const response = await fetch(file);
+			const blob = await response.blob();
+			const fileName =
+				response.headers.get('Content-Disposition')?.split('filename=')[1] ||
+				file.split('/').pop() ||
+				'example-font';
+			const mimeType = response.headers.get('Content-Type') || 'font/ttf';
+			file = new File([blob], fileName, { type: mimeType });
+		}
 		this.loadingFont = true;
 		const { characters, fontName, format, size } = await processFontFile(file);
 		const fontFace = new FontFace(fontName, `url(${URL.createObjectURL(file)})`);
@@ -37,7 +48,11 @@ class FontStore {
 			supportedCount: characters.filter((c) => c.isSupported).length
 		};
 		this.loadingFont = false;
-		return { characters: this.characters, metadata: this.metadata };
+	}
+
+	reset() {
+		this.characters = [];
+		this.metadata = null;
 	}
 }
 
