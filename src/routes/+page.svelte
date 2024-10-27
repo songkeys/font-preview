@@ -8,13 +8,17 @@
 	import { fontStore } from '$lib/stores/font.svelte';
 </script>
 
-<FontUploader />
-<ExampleFonts />
-<FontMetadata />
-{#if fontStore.characters.length > 0}
-	<div class="flex items-center justify-between gap-2">
-		<SearchBox />
-		<FontSizeAdjuster />
-	</div>
-	<CharacterDisplay />
-{/if}
+<div class="container mx-auto max-w-screen-xl px-4 py-8">
+	<FontUploader />
+	<ExampleFonts />
+	<FontMetadata />
+	{#if fontStore.characters.length > 0}
+		<div class="mb-6 flex flex-col items-center justify-between gap-4 sm:flex-row">
+			<div class="w-full sm:w-2/3">
+				<SearchBox />
+			</div>
+			<FontSizeAdjuster />
+		</div>
+		<CharacterDisplay />
+	{/if}
+</div>

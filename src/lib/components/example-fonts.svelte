@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { fontStore } from '$lib/stores/font.svelte';
+	import { IconFileTypography } from '@tabler/icons-svelte';
 
 	const exampleFonts = [
 		{
@@ -37,35 +38,25 @@
 </script>
 
 {#if fontStore.characters.length === 0}
-	<div class="mt-8">
-		<h3 class="mb-4 text-lg font-semibold">Example Fonts</h3>
-		<p class="mb-4 text-sm text-gray-600">
+	<div class="mt-12">
+		<h3 class="mb-6 text-2xl font-semibold text-gray-800 dark:text-white">Example Fonts</h3>
+		<p class="mb-6 text-sm text-gray-600 dark:text-gray-400">
 			Drag and drop one of these example fonts to try out the tool:
 		</p>
-		<div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
+		<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
 			{#each exampleFonts as font}
 				<div
-					class="flex cursor-move items-center justify-center rounded-lg border border-gray-300 bg-white p-4 shadow-sm transition-shadow hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
+					class="flex cursor-move flex-col items-center justify-center rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-all duration-300 hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
 					draggable="true"
-					ondragstart={(e) => handleDragStart(e, font)}
+					on:dragstart={(e) => handleDragStart(e, font)}
 					role="option"
 					aria-selected={false}
-					tabindex={-1}
+					tabindex={0}
 				>
-					<svg
-						class="mr-2 h-6 w-6 text-gray-400"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-						/>
-					</svg>
-					<span class="text-sm">{font.name}</span>
+					<IconFileTypography class="mb-2 h-8 w-8 text-gray-400" />
+					<span class="text-center text-sm font-medium text-gray-700 dark:text-gray-300">
+						{font.name}
+					</span>
 				</div>
 			{/each}
 		</div>

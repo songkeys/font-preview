@@ -7,7 +7,9 @@
 	let containerRef: HTMLDivElement;
 	let containerWidth = $state(0);
 
-	let itemWidth = $derived(fontStore.cardSize + 4); // cardSize + gap
+	const gap = 4;
+
+	let itemWidth = $derived(fontStore.cardSize + gap); // cardSize + gap
 	let columnCount = $derived(Math.max(1, Math.floor(containerWidth / itemWidth)));
 	let rowCount = $derived(Math.ceil(fontStore.filteredChars.length / columnCount));
 
@@ -27,22 +29,24 @@
 		createVirtualizer({
 			count: rowCount,
 			getScrollElement: () => containerRef,
-			estimateSize: () => itemWidth, // Fixed row height
-			overscan: 10 // Increase overscan for smoother scrolling
+			estimateSize: () => itemWidth,
+			overscan: 10,
+			gap: gap
 		})
 	);
 </script>
 
-<div bind:this={containerRef} class="flex-1 overflow-auto" style="height: calc(100vh - 200px);">
-	<div
-		class="overflow-x-hidden"
-		style="height: {$rowVirtualizer.getTotalSize()}px; width: 100%; position: relative;"
-	>
+<div
+	bind:this={containerRef}
+	class="flex-1 overflow-auto rounded-lg bg-gray-100 p-4 dark:bg-gray-900"
+	style="height: calc(100vh - 200px);"
+>
+	<div class="relative" style="height: {$rowVirtualizer.getTotalSize()}px; width: 100%;">
 		{#each $rowVirtualizer.getVirtualItems() as virtualRow (virtualRow.index)}
 			<div
-				class="absolute left-0 top-0 grid w-full gap-2 p-1"
+				class="absolute left-0 top-0 grid w-full gap-4"
 				style="
-					height: {fontStore.cardSize + 4}px;
+					height: {fontStore.cardSize + 8}px;
 					transform: translateY({virtualRow.start}px);
 					grid-template-columns: repeat({columnCount}, minmax(0, 1fr));
 				"

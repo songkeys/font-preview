@@ -1,3 +1,15 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+@layer base {
+	body {
+		@apply bg-gray-50 text-gray-900 transition-colors duration-300 dark:bg-gray-900 dark:text-white;
+	}
+}
+
+@layer components {
+	.btn {
+		@apply rounded-full bg-blue-500 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-600 dark:hover:bg-blue-700;
+	}
+}
