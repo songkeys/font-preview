@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { fontStore } from '$lib/stores/font.svelte';
 	import { IconUpload } from '@tabler/icons-svelte';
+	import { createEventDispatcher } from 'svelte';
+
+	const dispatch = createEventDispatcher();
 
 	let dragOver = $state(false);
 	let uploadProgress = $state(0);
@@ -46,6 +49,7 @@
 		try {
 			await fontStore.loadFont(file);
 			uploadProgress = 100;
+			dispatch('uploadComplete');
 		} catch (error) {
 			console.error('Error loading font:', error);
 			alert('Error loading font. You may only upload TTF, WOFF, WOFF2, or OTF files.');
