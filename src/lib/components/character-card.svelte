@@ -11,8 +11,8 @@
 </script>
 
 <div
-	class="group relative flex flex-col items-center justify-center overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:shadow-lg dark:bg-gray-800 {!character.isSupported &&
-		'bg-red-500 dark:bg-red-900'}"
+	class="group relative flex flex-col items-center justify-center overflow-hidden rounded-lg shadow-md transition-all duration-300 hover:shadow-lg
+	{character.isSupported ? 'bg-white dark:bg-gray-800' : 'bg-red-300 dark:bg-red-800'}"
 	style="width: {fontStore.cardSize}px; height: {fontStore.cardSize}px;"
 	title={`${character.name} (U+${character.codePoint.toString(16).toUpperCase().padStart(4, '0')})`}
 >
